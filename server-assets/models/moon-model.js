@@ -1,6 +1,5 @@
 let dataAdapter = require('./data-adapter'),
   uuid = dataAdapter.uuid,
-  schemator = dataAdapter.schemator,
   DS = dataAdapter.DS,
   formatQuery = dataAdapter.formatQuery;
 
@@ -27,28 +26,6 @@ let Moon = DS.defineResource({
   }
 })
 
-schemator.defineSchema('Moon', {
-  id: {
-    type: 'string',
-    nullable: false
-  },
-  name: {
-    type: 'string',
-    nullable: false
-  },
-  planetId: {
-    type: 'string',
-    nullable: false
-  },
-  galaxyId: {
-    type: 'string',
-    nullable: false
-  },
-  starId: {
-    type: 'string',
-    nullable: false
-  }
-})
 
 function create(moon, cb) {
   // Use the Resource Model to create a new moon

@@ -1,6 +1,5 @@
 let dataAdapter = require('./data-adapter'),
   uuid = dataAdapter.uuid,
-  schemator = dataAdapter.schemator,
   DS = dataAdapter.DS,
   formatQuery = dataAdapter.formatQuery;
 

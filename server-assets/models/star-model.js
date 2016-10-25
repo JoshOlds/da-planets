@@ -1,6 +1,5 @@
 let dataAdapter = require('./data-adapter'),
   uuid = dataAdapter.uuid,
-  schemator = dataAdapter.schemator,
   DS = dataAdapter.DS,
   formatQuery = dataAdapter.formatQuery;
 
@@ -24,9 +23,13 @@ let Star = DS.defineResource({
   }
 })
 
+dataAdapter.actuallyType("test", "string").then(function(item){console.log(item)});
 
 function create(star, cb) {
   // Use the Resource Model to create a new star
+  Promise.all([
+    
+  ]);
   Star.create({ id: uuid.v4(), name: star.name, galaxyId: star.galaxyId}).then(cb).catch(cb)
 }
 
