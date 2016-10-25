@@ -1,7 +1,9 @@
 let dataAdapter = require('./data-adapter'),
+  schematron = require('./schematron'),
   uuid = dataAdapter.uuid,
   DS = dataAdapter.DS,
-  formatQuery = dataAdapter.formatQuery;
+  formatQuery = dataAdapter.formatQuery,
+  xss = require('xss');
 
 let Moon = DS.defineResource({
   name: 'moon',
@@ -29,24 +31,23 @@ let Moon = DS.defineResource({
 
 function create(moon, cb) {
   // Use the Resource Model to create a new moon
-
-  DS.find('planet', moon.planetId).then(function(planet){
-    let moonObj = { 
-      id: uuid.v4(),
-      name: moon.name,
-      planetId: moon.planetId,
-      galaxyId: planet.galaxyId, 
-      starId: planet.starId
-    }
-
-    let error = schemator.validateSync('Moon', moonObj);
-    if(error){
-      return cb(error)
-    }
-
-    Moon.create(moonObj)
-    .then(cb).catch(cb)
-  }).catch(cb)
+  Promise.all([
+    schematron.actuallyType(moon.name, "string"),
+    schematron.actuallyType(moon.planetId, "string"),
+    schematron.uniqueIn(moon.name, "moon"),
+    schematron.existsIn(moon.planetId, "planet"),
+  ])
+  .then(function(){
+    let planet = DS.find('planet', moon.planetId).then(function(planet){
+      let cleanMoon = { id: uuid.v4(), name: xss(moon.name), planetId: moon.planetId, starId: planet.starId, galaxyId: planet.galaxyId}
+      Moon.create(cleanMoon).then(cb).catch(cb)
+    }).catch(function(error){
+      cb(error);
+    })
+  })
+  .catch(function(error){
+    cb(error);
+  })
 }
 
 function getAll(query, cb) {

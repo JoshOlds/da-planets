@@ -1,7 +1,9 @@
 let dataAdapter = require('./data-adapter'),
+  schematron = require('./schematron'),
   uuid = dataAdapter.uuid,
   DS = dataAdapter.DS,
-  formatQuery = dataAdapter.formatQuery;
+  formatQuery = dataAdapter.formatQuery,
+  xss = require('xss');
 
 let Planet = DS.defineResource({
   name: 'planet',
@@ -32,22 +34,23 @@ let Planet = DS.defineResource({
 function create(planet, cb) {
   // Use the Resource Model to create a new planet
 
-  DS.find('star', planet.starId).then(function(star){
-    let planetObj = { 
-      id: uuid.v4(),
-      name: planet.name,
-      galaxyId: star.galaxyId, 
-      starId: planet.starId
-    }
-
-    let error = schemator.validateSync('Planet', planetObj);
-    if(error){
-      return cb(error)
-    }
-
-    Planet.create(planetObj)
-    .then(cb).catch(cb)
-  }).catch(cb)
+   Promise.all([
+    schematron.actuallyType(planet.name, "string"),
+    schematron.actuallyType(planet.starId, "string"),
+    schematron.uniqueIn(planet.name, "planet"),
+    schematron.existsIn(planet.starId, "star"),
+  ])
+  .then(function(){
+    let star = DS.find('star', planet.starId).then(function(star){
+      let cleanPlanet = { id: uuid.v4(), name: xss(planet.name), starId: planet.starId, galaxyId: star.galaxyId}
+      Planet.create(cleanPlanet).then(cb).catch(cb)
+    }).catch(function(error){
+      cb(error);
+    })
+  })
+  .catch(function(error){
+    cb(error);
+  })
 }
 
 function getAll(query, cb) {

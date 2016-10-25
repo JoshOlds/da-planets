@@ -19,7 +19,7 @@ router.route('/:id?')
     }
   })
   .post(function (req, res, next) {
-    Galaxy.create(req.body.name, function (galaxy) {
+    Galaxy.create(req.body, function (galaxy) {
       if(galaxy.stack) { return next(galaxy) }
       return res.send(galaxy)
     })

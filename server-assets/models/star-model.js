@@ -1,7 +1,9 @@
 let dataAdapter = require('./data-adapter'),
+  schematron = require('./schematron'),
   uuid = dataAdapter.uuid,
   DS = dataAdapter.DS,
-  formatQuery = dataAdapter.formatQuery;
+  formatQuery = dataAdapter.formatQuery,
+  xss = require('xss');
 
 let Star = DS.defineResource({
   name: 'star',
@@ -23,14 +25,23 @@ let Star = DS.defineResource({
   }
 })
 
-dataAdapter.actuallyType("test", "string").then(function(item){console.log(item)});
+
 
 function create(star, cb) {
   // Use the Resource Model to create a new star
   Promise.all([
-    
-  ]);
-  Star.create({ id: uuid.v4(), name: star.name, galaxyId: star.galaxyId}).then(cb).catch(cb)
+    schematron.actuallyType(star.name, "string"),
+    schematron.actuallyType(star.galaxyId, "string"),
+    schematron.uniqueIn(star.name, "star"),
+    schematron.existsIn(star.galaxyId, "galaxy")
+  ])
+  .then(function(){
+    let cleanStar = { id: uuid.v4(), name: xss(star.name), galaxyId: star.galaxyId }
+    Star.create({ id: uuid.v4(), name: cleanStar.name, galaxyId: cleanStar.galaxyId}).then(cb).catch(cb)
+  })
+  .catch(function(error){
+    cb(error);
+  })
 }
 
 function getAll(query, cb) {

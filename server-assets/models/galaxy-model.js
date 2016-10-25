@@ -1,7 +1,9 @@
 let dataAdapter = require('./data-adapter'),
+  schematron = require('./schematron'),
   uuid = dataAdapter.uuid,
   DS = dataAdapter.DS,
-  formatQuery = dataAdapter.formatQuery;
+  formatQuery = dataAdapter.formatQuery,
+  xss = require('xss');
 
 let Galaxy = DS.defineResource({
   name: 'galaxy',
@@ -34,16 +36,20 @@ let Galaxy = DS.defineResource({
 })
 
 
-function create(name, cb) {
+function create(galaxy, cb) {
   // Use the Resource Model to create a new galaxy
-  let galaxy = { id: uuid.v4(), name: name };
+  Promise.all([
+    schematron.actuallyType(galaxy.name, "string"),
+    schematron.uniqueIn(galaxy.name, "galaxy")
+  ])
+  .then(function(){
+    let cleanGalaxy = { id: uuid.v4(), name: xss(galaxy.name) }
+    Galaxy.create(cleanGalaxy).then(cb).catch(cb)
+  })
+  .catch(function(error){
+    cb(error);
+  })
   
-  let error = schemator.validateSync('Galaxy', galaxy)
-  
-  if(error){
-    return cb(error);
-  }
-  Galaxy.create(galaxy).then(cb).catch(cb)
 }
 
 function getAll(query, cb) {
