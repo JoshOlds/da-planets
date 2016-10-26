@@ -28,5 +28,8 @@ router.route('/:id?')
     res.send('We are working on it....')
   })
   .delete(function (req, res, next) {
-    res.send('We are working on it....')
+    Planet.deleteById(req.params.id, function(response){
+      if(response.stack){return next(response)}
+      return res.send(response)
+    })
   })

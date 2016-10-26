@@ -60,9 +60,24 @@ function getById(id, query, cb) {
   Moon.find(id, formatQuery(query)).then(cb).catch(cb)
 }
 
+function deleteById(id, cb){
+  schematron.existsIn(id, "moon")
+  .then(function(){
+    
+    Moon.destroy(id)
+    .then(function(returnedId){
+      schematron.reaper('moonId', id, [])
+      cb({message: `Moon destroyed: ${returnedId}`})}
+      )
+    .catch(function(returnedId){cb(new Error(`Moon does not exist! ${returnedId}`))});
+  })
+  .catch(function(returnedId){cb(new Error(returnedId))})
+}
+
 module.exports = {
   create,
   getAll,
-  getById
+  getById,
+  deleteById
 }
 

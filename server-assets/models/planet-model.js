@@ -63,9 +63,24 @@ function getById(id, query, cb) {
   Planet.find(id, formatQuery(query)).then(cb).catch(cb)
 }
 
+function deleteById(id, cb){
+  schematron.existsIn(id, "planet")
+  .then(function(){
+    
+    Planet.destroy(id)
+    .then(function(returnedId){
+      schematron.reaper('planetId', id, ['moon'])
+      cb({message: `Planet destroyed: ${returnedId}`})}
+      )
+    .catch(function(returnedId){cb(new Error(`Planet does not exist! ${returnedId}`))});
+  })
+  .catch(function(returnedId){cb(new Error(returnedId))})
+}
+
 module.exports = {
   create,
   getAll,
-  getById
+  getById,
+  deleteById
 }
 

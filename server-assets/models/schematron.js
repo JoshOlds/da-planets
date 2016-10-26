@@ -1,4 +1,7 @@
-// Josh's Schematron stuffs
+// Josh's Schematron 
+// This file contains functions that return promises. 
+// These functions should be used in a Promise.all([]).then().catch() setup.
+
 let dataAdapter = require('./data-adapter'),
   DS = dataAdapter.DS;
 
@@ -55,8 +58,24 @@ function actuallyType(item, typeString){
   })
 }
 
+function reaper(propName, id, collectionsArray){
+  return new Promise(function(resolve, reject){
+    if(!Array.isArray(collectionsArray)){return reject(new Error("collectionsArray is not an array! This is a Server side error..."))}
+    collectionsArray.forEach(function(collection){
+      let options = {}
+      let innerOptions = {'==' : id}
+      let midOptions = {}
+      midOptions[propName] = innerOptions;
+      options.where = midOptions;
+      DS.destroyAll(collection, options).catch(function(err){console.log(err)})
+    })
+    return resolve({message: "reaper is reaping..."})
+  })
+}
+
 module.exports = {
     existsIn,
     uniqueIn,
-    actuallyType
+    actuallyType,
+    reaper
 }

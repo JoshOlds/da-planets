@@ -62,9 +62,32 @@ function getById(id, query, cb) {
   Galaxy.find(id, formatQuery(query)).then(cb).catch(cb)
 }
 
+function deleteById(id, cb){
+  schematron.existsIn(id, "galaxy")
+  .then(function(){
+    
+    Galaxy.destroy(id)
+    .then(function(returnedId){
+      schematron.reaper('galaxyId', id, ['star', 'planet', 'moon'])
+      cb({message: `Galaxy destroyed: ${returnedId}`})}
+      )
+    .catch(function(returnedId){cb(new Error(`Galaxy does not exist! ${returnedId}`))});
+  })
+  .catch(cb)
+}
+
+// function updateById(id, data, cb){
+//   schematron.existsIn(id, "galaxy")
+//   .then(function(){
+//     Galaxy.(id, )
+//   })
+//   .catch(cb)
+// }
+
 module.exports = {
   create,
   getAll,
-  getById
+  getById,
+  deleteById
 }
 

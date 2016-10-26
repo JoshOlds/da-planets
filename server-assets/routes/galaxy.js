@@ -5,6 +5,7 @@ module.exports.mountPath = '/galaxies'
 module.exports.router = router;
 
 router.route('/:id?')
+
   .get(function (req, res, next) {
     if (req.params.id) {
       Galaxy.getById(req.params.id, req.query.include, function (galaxy) {
@@ -18,15 +19,24 @@ router.route('/:id?')
       });
     }
   })
+
   .post(function (req, res, next) {
     Galaxy.create(req.body, function (galaxy) {
       if(galaxy.stack) { return next(galaxy) }
       return res.send(galaxy)
     })
   })
+
   .put(function (req, res, next) {
-    res.send('We are working on it....')
+    // Galaxy.updateById(req.params.id, req.body, function (galaxy) {
+    //   if(galaxy.stack) { return next(galaxy) }
+    //   return res.send(galaxy)
+    // })
   })
+
   .delete(function (req, res, next) {
-    res.send('We are working on it....')
+    Galaxy.deleteById(req.params.id, function(response){
+      if(response.stack){return next(response)}
+      return res.send(response)
+    })
   })
