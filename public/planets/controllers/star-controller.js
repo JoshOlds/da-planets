@@ -48,7 +48,7 @@ function StarController(parentId, parentName) {
             })
         }
         if(!parentId){
-            var header = $('#table-header').html(`Stars <i class="fa fa-plus star-add" id="${parentId}" aria-hidden="true"></i> <i class="fa fa-level-up" id="up-star" aria-hidden="true"></i>`)
+            var header = $('#table-header').html(`Stars <i class="fa fa-level-up" id="up-star" aria-hidden="true"></i>`)
             starService.getStars().then(function (data) {
                 data = data.sort(function(current, last){
                     if(current.name.toLowerCase() < last.name.toLowerCase()) return -1;

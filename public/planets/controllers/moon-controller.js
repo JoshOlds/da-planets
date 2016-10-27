@@ -48,7 +48,7 @@ function MoonController(parentId, parentName) {
             })
         }
         if(!parentId){
-            var header = $('#table-header').html(`Moons <i class="fa fa-plus moon-add" id="${parentId}" aria-hidden="true"></i> <i class="fa fa-level-up" id="up-moon" aria-hidden="true"></i>`)
+            var header = $('#table-header').html(`Moons <i class="fa fa-level-up" id="up-moon" aria-hidden="true"></i>`)
             moonService.getMoons().then(function (data) {
                 data = data.sort(function(current, last){
                     if(current.name.toLowerCase() < last.name.toLowerCase()) return -1;

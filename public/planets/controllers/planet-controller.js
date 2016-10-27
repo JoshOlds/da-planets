@@ -48,7 +48,7 @@ function PlanetController(parentId, parentName) {
             })
         }
         if(!parentId){
-            var header = $('#table-header').html(`Planets <i class="fa fa-plus planet-add" id="${parentId}" aria-hidden="true"></i> <i class="fa fa-level-up" id="up-planet" aria-hidden="true"></i>`)
+            var header = $('#table-header').html(`Planets <i class="fa fa-level-up" id="up-planet" aria-hidden="true"></i>`)
             planetService.getPlanets().then(function (data) {
                 data = data.sort(function(current, last){
                     if(current.name.toLowerCase() < last.name.toLowerCase()) return -1;
