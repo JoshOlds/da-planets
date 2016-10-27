@@ -16,7 +16,7 @@ function StarController(parentId, parentName) {
         var count = 1;
 
         if(parentId){
-            var header = $('#table-header').html(`${parentName}: Stars <i class="fa fa-plus star-add" id="${parentId}" aria-hidden="true"></i>`)
+            var header = $('#table-header').html(`${parentName}: Stars <i class="fa fa-plus star-add" id="${parentId}" aria-hidden="true"></i> <i class="fa fa-level-up" id="up-star" aria-hidden="true"></i>`)
             starService.getStarsFromGalaxy(parentId).then(function (data) {
                 data = data.stars || [];
                 data = data.sort(function(current, last){
@@ -48,7 +48,7 @@ function StarController(parentId, parentName) {
             })
         }
         if(!parentId){
-            var header = $('#table-header').html(`Stars <i class="fa fa-plus star-add" id="${parentId}" aria-hidden="true"></i>`)
+            var header = $('#table-header').html(`Stars <i class="fa fa-plus star-add" id="${parentId}" aria-hidden="true"></i> <i class="fa fa-level-up" id="up-star" aria-hidden="true"></i>`)
             starService.getStars().then(function (data) {
                 data = data.sort(function(current, last){
                     if(current.name.toLowerCase() < last.name.toLowerCase()) return -1;
@@ -130,6 +130,11 @@ function StarController(parentId, parentName) {
     $('body').on('click', '.parent-item-galaxy', function(e){
         e.preventDefault();
         switchToStarView(this.id, this.innerText);
+    })
+
+    $('body').on('click', '#up-star', function(e){
+        e.preventDefault();
+        switchToGalaxyView();
     })
 
 }

@@ -16,7 +16,7 @@ function PlanetController(parentId, parentName) {
         var count = 1;
 
         if(parentId){
-            var header = $('#table-header').html(`${parentName}: Planets <i class="fa fa-plus planet-add" id="${parentId}" aria-hidden="true"></i>`)
+            var header = $('#table-header').html(`${parentName}: Planets <i class="fa fa-plus planet-add" id="${parentId}" aria-hidden="true"></i> <i class="fa fa-level-up" id="up-planet" aria-hidden="true"></i>`)
             planetService.getPlanetsFromStar(parentId).then(function (data) {
                 data = data.planets || [];
                 data = data.sort(function(current, last){
@@ -48,7 +48,7 @@ function PlanetController(parentId, parentName) {
             })
         }
         if(!parentId){
-            var header = $('#table-header').html(`Planets <i class="fa fa-plus planet-add" id="${parentId}" aria-hidden="true"></i>`)
+            var header = $('#table-header').html(`Planets <i class="fa fa-plus planet-add" id="${parentId}" aria-hidden="true"></i> <i class="fa fa-level-up" id="up-planet" aria-hidden="true"></i>`)
             planetService.getPlanets().then(function (data) {
                 data = data.sort(function(current, last){
                     if(current.name.toLowerCase() < last.name.toLowerCase()) return -1;
@@ -130,6 +130,11 @@ function PlanetController(parentId, parentName) {
     $('body').on('click', '.parent-item-star', function(e){
         e.preventDefault();
         switchToPlanetView(this.id, this.innerText);
+    })
+
+    $('body').on('click', '#up-planet', function(e){
+        e.preventDefault();
+        switchToStarView();
     })
 
 }

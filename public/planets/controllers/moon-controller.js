@@ -16,7 +16,7 @@ function MoonController(parentId, parentName) {
         var count = 1;
 
         if(parentId){
-            var header = $('#table-header').html(`${parentName}: Moons <i class="fa fa-plus moon-add" id="${parentId}" aria-hidden="true"></i>`)
+            var header = $('#table-header').html(`${parentName}: Moons <i class="fa fa-plus moon-add" id="${parentId}" aria-hidden="true"></i> <i class="fa fa-level-up" id="up-moon" aria-hidden="true"></i>`)
             moonService.getMoonsFromPlanet(parentId).then(function (data) {
                 data = data.moons || [];
                 data = data.sort(function(current, last){
@@ -48,7 +48,7 @@ function MoonController(parentId, parentName) {
             })
         }
         if(!parentId){
-            var header = $('#table-header').html(`Moons <i class="fa fa-plus moon-add" id="${parentId}" aria-hidden="true"></i>`)
+            var header = $('#table-header').html(`Moons <i class="fa fa-plus moon-add" id="${parentId}" aria-hidden="true"></i> <i class="fa fa-level-up" id="up-moon" aria-hidden="true"></i>`)
             moonService.getMoons().then(function (data) {
                 data = data.sort(function(current, last){
                     if(current.name.toLowerCase() < last.name.toLowerCase()) return -1;
@@ -130,6 +130,11 @@ function MoonController(parentId, parentName) {
     $('body').on('click', '.parent-item-planet', function(e){
         e.preventDefault();
         switchToMoonView(this.id, this.innerText);
+    })
+
+    $('body').on('click', '#up-moon', function(e){
+        e.preventDefault();
+        switchToPlanetView();
     })
 
 }

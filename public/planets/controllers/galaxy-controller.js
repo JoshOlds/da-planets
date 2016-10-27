@@ -5,7 +5,7 @@ function GalaxyController() {
 
     this.update = function update() {
         var elem = $('#table-body');
-        var header = $('#table-header').html('Galaxies <i class="fa fa-plus galaxy-add" aria-hidden="true"></i>')
+        var header = $('#table-header').html('Galaxies <i class="fa fa-plus galaxy-add" aria-hidden="true"></i> <i class="fa fa-level-up" id="up-galaxy" aria-hidden="true"></i>')
         var template = '';
         var count = 1;
 
