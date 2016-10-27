@@ -36,8 +36,12 @@ function create(star, cb) {
     schematron.existsIn(star.galaxyId, "galaxy")
   ])
   .then(function(){
-    let cleanStar = { id: uuid.v4(), name: xss(star.name), galaxyId: star.galaxyId }
-    Star.create({ id: uuid.v4(), name: cleanStar.name, galaxyId: cleanStar.galaxyId}).then(cb).catch(cb)
+    
+    DS.find('galaxy', star.galaxyId).then(function(galaxy){
+      let cleanStar = { id: uuid.v4(), name: xss(star.name), galaxyId: star.galaxyId, parentName: galaxy.name }
+      Star.create(cleanStar).then(cb).catch(cb)
+    })
+    
   })
   .catch(function(error){
     cb(error);

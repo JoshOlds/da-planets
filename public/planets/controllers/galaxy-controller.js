@@ -1,24 +1,13 @@
 function GalaxyController() {
 
-    var galaxyService = new GalaxyService(globalIp, globalPort);
+    var galaxyService = new GalaxyService();
     var me = this;
 
     this.update = function update() {
-        var elem = $('#item-holder');
+        var elem = $('#table-body');
+        var header = $('#table-header').html('Galaxies <i class="fa fa-plus galaxy-add" aria-hidden="true"></i>')
         var template = '';
         var count = 1;
-
-        template += `
-        <div class="column small-3">
-            <h3 class="item-header">Galaxies</h3>
-        </div>
-        <div class="column small-3">
-            <form id="form-galaxy">
-                <input type="text" id="form-galaxy-text" placeholder="Galaxy Name" required>
-                <button class="button" id="form-galaxy-button">New Galaxy</button>
-            </form>
-        </div>
-    `
 
         galaxyService.getGalaxies().then(function (data) {
             data = data.sort(function(current, last){
@@ -30,15 +19,26 @@ function GalaxyController() {
                 var color;
                 count % 2 == 0 ? color = 'main-item' : color = 'alt-item';
                 template += `
-                <li class="${color}">
-                    ${galaxy.name} <i class="fa fa-trash galaxy-delete"aria-hidden="true" id="${galaxy.id}"></i>
-                </li>
+                <tr class="hoverable">
+                <td class="${color} hoverable pointer child-item-star" id=${galaxy.id} name="${galaxy.name}">
+                    ${galaxy.name} 
+                </td>
+                <td class="${color}">
+                    ----
+                </td>
+                <td class="${color}">
+                    <i class="fa fa-times galaxy-delete"aria-hidden="true" id="${galaxy.id}"></i>
+                </td>
+                </tr>
             `
                 count++;
             });
             elem.html(template);
         })
     }
+
+
+    // Event Handlers
 
     $('body').on('submit', '#form-galaxy', function(e){
         e.preventDefault();
@@ -51,6 +51,7 @@ function GalaxyController() {
             console.log(err)
         })
         $('#form-galaxy-text').val('');
+        $('#input-form-space').html('');
     })
 
     $('body').on('click', '.galaxy-delete', function(e){
@@ -62,6 +63,25 @@ function GalaxyController() {
         .catch(function(err){
             console.log(err);
         })
+    })
+
+    $('body').on('click', '.galaxy-add', function(e){
+        e.preventDefault();
+        var elem = $('#input-form-space');
+        elem.html(`
+        <div class="column small-3">
+            <form id="form-galaxy">
+                <input type="text" id="form-galaxy-text" placeholder="Galaxy Name" required>
+                <button class="button" id="form-galaxy-button">Add Galaxy</button>
+            </form>
+        </div>
+        `)
+        console.log("test")
+    })
+
+    $('body').on('click', '.child-item-star', function(e){
+        e.preventDefault();
+        switchToStarView(this.id, this.innerText);
     })
 
 }

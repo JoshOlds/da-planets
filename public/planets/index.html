@@ -1,47 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Josh's Firebase Universe</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/foundation-flex.min.css" />
-  <link rel="stylesheet" href="./style.css" />
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/foundation.min.js"></script>
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Josh's Firebase Universe</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/foundation-flex.min.css" />
+	<link rel="stylesheet" href="./style.css" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/foundation.min.js"></script>
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
+
 <body>
 
-  <div class="row full-width">
-    <div class="column small-12 top-bar" id="top-bar">
-      <h1>Josh's Firebase Universe</h1>
-    </div>
+	<div class="row full-width">
+		<div class="column small-12 top-bar" id="top-bar">
+			<h1>Josh's Firebase Universe</h1>
+		</div>
+	</div>
 
-    <div class="column small-12 large-3 side-bar" id="side-bar">
-      <h3>Navigation</h3>
-    </div>
+	<div class="row full-width full-height">
+		<div class="column small-12 large-3 side-bar full-height" id="side-bar">
+			<h2>Navigation</h2>
+			<ul class="nav-list">
+				<li id="nav-galaxies" class="nav-item hoverable pointer">
+					Galaxies
+				</li>
+				<li id="nav-stars" class="nav-item hoverable pointer">
+					Stars
+				</li>
+				<li id="nav-planets" class="nav-item hoverable pointer">
+					Planets
+				</li>
+				<li id="nav-moons" class="nav-item hoverable pointer">
+					Moons
+				</li>
+			</ul>
+		</div>
 
 
-    <div class="column small-12 large-9 main" id="main">
-      <div class="item-holder" id="item-holder">
+		<div class="column small-12 large-9 main no-x-overflow" id="main">
+			<div id="input-form-space">
 
-      </div>
-    </div>
+			</div>
+			<table class="table-main">
+				<thead>
+					<tr>
+						<th class="table-header" id="table-header" width="400px">REPLACEME</th>
+						<th class="table-header" id="table-parent" width="400px">Parent</th>
+					</tr>
+				</thead>
+				<tbody class="table-body" id="table-body">
 
-  </div>
+				</tbody>
+			</table>
+		</div>
 
-  
+	</div>
+
+
 </body>
 
-<script> 
-const globalIp = '192.168.0.46',
-globalPort = '8081';
-</script>
-
 <script type="text/javascript" src="./services/galaxy-service.js"></script>
+<script type="text/javascript" src="./services/star-service.js"></script>
+<script type="text/javascript" src="./services/planet-service.js"></script>
+<script type="text/javascript" src="./services/moon-service.js"></script>
 
 <script type="text/javascript" src="./controllers/galaxy-controller.js"></script>
+<script type="text/javascript" src="./controllers/star-controller.js"></script>
+<script type="text/javascript" src="./controllers/planet-controller.js"></script>
+<script type="text/javascript" src="./controllers/moon-controller.js"></script>
+<script type="text/javascript" src="./controllers/navigation-controller.js"></script>
 
 <script type="text/javascript" src="app.js"></script>
+
 </html>

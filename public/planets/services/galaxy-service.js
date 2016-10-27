@@ -1,6 +1,6 @@
-function GalaxyService(hostAddress, port){
+function GalaxyService(){
 
-    var baseURL = '//' + hostAddress + ':' + port + '/api/galaxies'
+    var baseURL = '/api/galaxies'
 
     this.getGalaxies = function(){
         return new Promise(function (resolve, reject){

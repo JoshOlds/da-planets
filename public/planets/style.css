@@ -1,5 +1,10 @@
 body{
     font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
+}
+
+.no-x-overflow{
+    overflow-x: hidden;
 }
 
 .full-width {
@@ -10,7 +15,7 @@ body{
 }
 
 .full-height{
-    min-height: initial;
+    min-height: 100%;
 }
 
 .roboto{
@@ -23,6 +28,7 @@ body{
 
 .top-bar{
     padding: 8px 40px;
+    max-height: 15vh;
     background-color: #ECECEB;
 }
 
@@ -32,22 +38,45 @@ body{
     padding: 20px;
 }
 
+.nav-list{
+    padding: 10px 20px;
+}
+.nav-item{
+    font-size: 24px;
+}
+
 .main{
     font-size: 24px;
     background-color: #07617D;
     padding: 20px 0px 0px 0px;
 }
 
-.item-header{
+table{
+    border-collapse: separate !important;
+}
+
+.table-main{
+    border: 0px solid black;
+}
+
+.table-header{
     padding: 0px 20px;
+    background-color: #07617D;
     color: white;
     font-size: 36px;
 }
+
 
 .main-item{
     background-color: #07617D;
     padding: 5px 20px;
     color: white;
+}
+.hoverable:hover{
+    color: greenyellow;
+}
+.pointer{
+    cursor: pointer;
 }
 .alt-item{
     background-color: #F9A828;
@@ -55,7 +84,11 @@ body{
     color: black;
 }
 
-.fa-trash{
+.fa-times{
     cursor: pointer;
     color: red;
+}
+.fa-plus{
+    cursor: pointer;
+    color: greenyellow;
 }

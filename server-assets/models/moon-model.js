@@ -39,7 +39,7 @@ function create(moon, cb) {
   ])
   .then(function(){
     let planet = DS.find('planet', moon.planetId).then(function(planet){
-      let cleanMoon = { id: uuid.v4(), name: xss(moon.name), planetId: moon.planetId, starId: planet.starId, galaxyId: planet.galaxyId}
+      let cleanMoon = { id: uuid.v4(), name: xss(moon.name), planetId: moon.planetId, starId: planet.starId, galaxyId: planet.galaxyId, parentName: planet.name}
       Moon.create(cleanMoon).then(cb).catch(cb)
     }).catch(function(error){
       cb(error);
